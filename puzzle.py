@@ -74,30 +74,21 @@ knowledge3 = And(
     #Knight or Knave can't be both
     Or(CKnight, CKnave),
     Not(And(CKnight, CKnave)),
+    
+    #if A say Ais Knight/if A say A is Knave
+    Or(And(Implication(AKnight, AKnight), Implication(AKnave, Not(AKnight))),
+        And(Implication(AKnight, AKnave), Implication(AKnave, Not(AKnave)))),
 
-    # Implication(AKnight, Or(AKnight, AKnave)),
-    # Implication(AKnave,  Not(Or(AKnight, AKnave))),
-    # #if A said A is Knight
-    # Implication(AKnight, AKnight),
-    # Implication(AKnave, Not(AKnight)),
-    # #if A said A is Knave
-    # Implication(AKnight, AKnave),
-    # Implication(AKnave, Not(AKnave)),
-    # Or(
-    #     #if A said A is Knight
-    #     And(Implication(AKnight, AKnight), Implication(AKnave, Not(AKnight))), 
-    #      #if A said A is Knave
-    #     And(Implication(AKnight, AKnave), Implication(AKnave, Not(AKnave)))  
-    # ),
-    Or(
-        And(Implication(AKnight, AKnight), Implication(AKnave, Not(AKnight))), # A said "I am a knight."
-        And(Implication(AKnight, AKnave), Implication(AKnave, Not(AKnave)))   # A said "I am a knave."
-    ),
+    # Not(And(
+    #     And(Implication(AKnight, AKnight), Implication(AKnave, Not(AKnight))),
+    #     # "I am a knave."
+    #     And(Implication(AKnight, AKnave), Implication(AKnave, Not(AKnave))))),
 
     #if B is Knight A is Knave
-    Implication(BKnight, AKnave),
-    #if B is Knave A is not Knave
-    Implication(BKnave, Not(AKnave)),
+    Implication(BKnight, And(Implication(AKnight, AKnave),Implication(AKnave, Not(AKnave)))),
+     #if B is Knight A is Knight
+    Implication(BKnave, Not(And(Implication(AKnight, AKnave),Implication(AKnave, Not(AKnave))))),
+
     #if B is Knight C is Knave
     Implication(BKnight, CKnave), 
     #if B is Knave C is not Knave
@@ -106,7 +97,8 @@ knowledge3 = And(
     #if C is Knight A is Knave
     Implication(CKnight, AKnight),          
     #if C is Knight A is  not Knave   
-    Implication(CKnave, Not(AKnight))        
+    Implication(CKnave, Not(AKnight)),
+      
     )
 
 

@@ -34,7 +34,7 @@ knowledge1 = And(
     #if A is Knight then A is true
     Implication(AKnight, And(AKnave, BKnave)),
     #if A is Knave then A is not true
-    Implication(AKnave, And(Not(AKnave, BKnave)))
+    Implication(AKnave, Not(And(AKnave, BKnave)))
 
 )
 
@@ -75,32 +75,39 @@ knowledge3 = And(
     Or(CKnight, CKnave),
     Not(And(CKnight, CKnave)),
 
-    Implication(AKnight, Or(AKnight, AKnave)),
-    Implication(AKnave,  Not(Or(AKnight, AKnave))),
-    #if A said A is Knight
-    Implication(AKnight, AKnight),
-    Implication(AKnave, Not(AKnight)),
-    #if A said A is Knave
-    Implication(AKnight, AKnave),
-    Implication(AKnave, Not(AKnave)),
+    # Implication(AKnight, Or(AKnight, AKnave)),
+    # Implication(AKnave,  Not(Or(AKnight, AKnave))),
+    # #if A said A is Knight
+    # Implication(AKnight, AKnight),
+    # Implication(AKnave, Not(AKnight)),
+    # #if A said A is Knave
+    # Implication(AKnight, AKnave),
+    # Implication(AKnave, Not(AKnave)),
+    # Or(
+    #     #if A said A is Knight
+    #     And(Implication(AKnight, AKnight), Implication(AKnave, Not(AKnight))), 
+    #      #if A said A is Knave
+    #     And(Implication(AKnight, AKnave), Implication(AKnave, Not(AKnave)))  
+    # ),
     Or(
-        #if A said A is Knight
-        And(Implication(AKnight, AKnight), Implication(AKnave, Not(AKnight))), 
-         #if A said A is Knave
-        And(Implication(AKnight, AKnave), Implication(AKnave, Not(AKnave)))  
+        And(Implication(AKnight, AKnight), Implication(AKnave, Not(AKnight))), # A said "I am a knight."
+        And(Implication(AKnight, AKnave), Implication(AKnave, Not(AKnave)))   # A said "I am a knave."
     ),
+
     #if B is Knight A is Knave
-    Implication(BKnight, And(AKnave, CKnave)),
+    Implication(BKnight, AKnave),
     #if B is Knave A is not Knave
-    Implication(BKnave, Not(And(AKnave, CKnave)),
+    Implication(BKnave, Not(AKnave)),
+    #if B is Knight C is Knave
+    Implication(BKnight, CKnave), 
+    #if B is Knave C is not Knave
+    Implication(BKnave, Not(CKnave)),
+
     #if C is Knight A is Knave
     Implication(CKnight, AKnight),          
     #if C is Knight A is  not Knave   
-    Implication(CKnave , Not(AKnight))        
-    )            
-
-
-)
+    Implication(CKnave, Not(AKnight))        
+    )
 
 
 def main():
